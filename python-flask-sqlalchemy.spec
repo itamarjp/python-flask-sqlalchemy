@@ -2,7 +2,7 @@
 
 Name:           python-flask-sqlalchemy
 Version:        0.14
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Adds SQLAlchemy support to Flask application
 
 Group:          Development/Libraries
@@ -45,5 +45,8 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/flaskext/
 
 %changelog
+* Sat Jan 14 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.14-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
 * Thu Jul 21 2011 Praveen Kumar <kumarpraveen.nitdgp@gmail.com> - 0.14-1
 - Initial RPM release
