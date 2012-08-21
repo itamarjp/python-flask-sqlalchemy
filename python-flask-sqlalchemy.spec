@@ -2,7 +2,7 @@
 
 Name:           python-flask-sqlalchemy
 Version:        0.14
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Adds SQLAlchemy support to Flask application
 
 Group:          Development/Libraries
@@ -14,6 +14,8 @@ BuildArch:      noarch
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools
 BuildRequires:  python-flask
+
+Requires:       python-sqlalchemy
 
 %description
 Flask-SQLAlchemy is an extension for Flask that adds support for
@@ -45,6 +47,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/flaskext/
 
 %changelog
+* Thu Aug 21 2012 Praveen Kumar <kumarpraveen.nitdgp@gmail.com> - 0.14-4
+- Added python-sqlalchemy as requires
+
 * Sat Jul 21 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.14-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
