@@ -1,8 +1,8 @@
 %global mod_name Flask-SQLAlchemy
 
 Name:           python-flask-sqlalchemy
-Version:        0.14
-Release:        4%{?dist}
+Version:        0.16
+Release:        1%{?dist}
 Summary:        Adds SQLAlchemy support to Flask application
 
 Group:          Development/Libraries
@@ -47,6 +47,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/flaskext/
 
 %changelog
+* Tue Oct 09 2012 Tim Flink <tflink@fedoraproject.ort> - 0.16-1
+- Upgraded to upstream 0.16
+
 * Thu Aug 21 2012 Praveen Kumar <kumarpraveen.nitdgp@gmail.com> - 0.14-4
 - Added python-sqlalchemy as requires
 
