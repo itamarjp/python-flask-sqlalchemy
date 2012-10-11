@@ -42,9 +42,8 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %doc docs/ README CHANGES LICENSE PKG-INFO
 
-%{python_sitelib}/*-nspkg.pth
 %{python_sitelib}/*.egg-info/
-%{python_sitelib}/flaskext/
+%{python_sitelib}/flask_sqlalchemy.py*
 
 %changelog
 * Tue Oct 09 2012 Tim Flink <tflink@fedoraproject.ort> - 0.16-1
