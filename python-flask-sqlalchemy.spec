@@ -2,7 +2,7 @@
 
 Name:           python-flask-sqlalchemy
 Version:        0.16
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Adds SQLAlchemy support to Flask application
 
 Group:          Development/Libraries
@@ -46,6 +46,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/flask_sqlalchemy.py*
 
 %changelog
+* Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.16-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
+
 * Tue Oct 09 2012 Tim Flink <tflink@fedoraproject.ort> - 0.16-1
 - Upgraded to upstream 0.16
 
