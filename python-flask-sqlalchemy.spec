@@ -1,8 +1,9 @@
 %global mod_name Flask-SQLAlchemy
+%global with_python3 1
 
 Name:           python-flask-sqlalchemy
-Version:        0.16
-Release:        3%{?dist}
+Version:        1.0
+Release:        1%{?dist}
 Summary:        Adds SQLAlchemy support to Flask application
 
 Group:          Development/Libraries
@@ -14,14 +15,34 @@ BuildArch:      noarch
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools
 BuildRequires:  python-flask
-
 Requires:       python-sqlalchemy
+
+%if 0%{?with_python3}
+BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
+BuildRequires:  python3-flask
+Requires:       python3-sqlalchemy
+%endif
 
 %description
 Flask-SQLAlchemy is an extension for Flask that adds support for
 SQLAlchemy to your application. It aims to simplify using SQLAlchemy with 
 Flask by providing useful defaults and extra helpers that make it easier 
 to accomplish common tasks.
+
+%if 0%{?with_python3}
+%package -n python3-flask-sqlalchemy
+Summary:        Adds SQLAlchemy support to Flask application
+Group:          Development/Libraries
+
+%description -n python3-flask-sqlalchemy
+Flask-SQLAlchemy is an extension for Flask that adds support for
+SQLAlchemy to your application. It aims to simplify using SQLAlchemy with 
+Flask by providing useful defaults and extra helpers that make it easier 
+to accomplish common tasks.
+
+This package includes the python 3 version of the module.
+%endif # with_python3
 
 %prep
 %setup -q -n %{mod_name}-%{version}
@@ -30,22 +51,47 @@ rm -f docs/.DS_Store
 rm -f docs/_themes/.gitignore
 chmod -x docs/_static/flask-sqlalchemy-small.png
 
+%if 0%{?with_python3}
+rm -rf %{py3dir}
+cp -a . %{py3dir}
+%endif # with_python3
+
 %build
 CFLAGS="$RPM_OPT_FLAGS" %{__python} setup.py build
 
+%if 0%{?with_python3}
+pushd %{py3dir}
+CFLAGS="$RPM_OPT_FLAGS" %{__python3} setup.py build
+popd
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
 %{__python} setup.py install -O1 --skip-build --root $RPM_BUILD_ROOT
 
+%if 0%{?with_python3}
+pushd %{py3dir}
+mkdir -p $RPM_BUILD_ROOT%{python3_sitelib}
+%{__python3} setup.py install -O1 --skip-build --root $RPM_BUILD_ROOT
+popd
+%endif
  
 %files
 %doc docs/ README CHANGES LICENSE PKG-INFO
-
 %{python_sitelib}/*.egg-info/
-%{python_sitelib}/flask_sqlalchemy.py*
+%{python_sitelib}/flask_sqlalchemy/*
+
+%if 0%{?with_python3}
+%files -n python3-flask-sqlalchemy
+%doc docs/ README CHANGES LICENSE PKG-INFO
+%{python3_sitelib}/*.egg-info/
+%{python3_sitelib}/flask_sqlalchemy/*
+%endif # with_python3
 
 %changelog
+* Wed Aug 07 2013 Praveen Kumar <kumarpraveen.nitdgp@gmail.com> - 1.0-1
+- Upgraded to upstream 1.0 and added python3 support
+
 * Sun Aug 04 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.16-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
@@ -55,7 +101,7 @@ rm -rf $RPM_BUILD_ROOT
 * Tue Oct 09 2012 Tim Flink <tflink@fedoraproject.ort> - 0.16-1
 - Upgraded to upstream 0.16
 
-* Thu Aug 21 2012 Praveen Kumar <kumarpraveen.nitdgp@gmail.com> - 0.14-4
+* Tue Aug 21 2012 Praveen Kumar <kumarpraveen.nitdgp@gmail.com> - 0.14-4
 - Added python-sqlalchemy as requires
 
 * Sat Jul 21 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.14-3
