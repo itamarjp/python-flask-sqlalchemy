@@ -3,7 +3,7 @@
 
 Name:           python-flask-sqlalchemy
 Version:        1.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Adds SQLAlchemy support to Flask application
 
 Group:          Development/Libraries
@@ -21,7 +21,6 @@ Requires:       python-sqlalchemy
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
 BuildRequires:  python3-flask
-Requires:       python3-sqlalchemy
 %endif
 
 %description
@@ -34,6 +33,7 @@ to accomplish common tasks.
 %package -n python3-flask-sqlalchemy
 Summary:        Adds SQLAlchemy support to Flask application
 Group:          Development/Libraries
+Requires:       python3-sqlalchemy
 
 %description -n python3-flask-sqlalchemy
 Flask-SQLAlchemy is an extension for Flask that adds support for
@@ -89,6 +89,9 @@ popd
 %endif # with_python3
 
 %changelog
+* Tue Jan 21 2014 Praveen Kumar <kumarpraveen.nitdgp@gmail.com> 1.0-2
+- Fixed #1055251
+
 * Wed Aug 07 2013 Praveen Kumar <kumarpraveen.nitdgp@gmail.com> - 1.0-1
 - Upgraded to upstream 1.0 and added python3 support
 
