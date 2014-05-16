@@ -3,7 +3,7 @@
 
 Name:           python-flask-sqlalchemy
 Version:        1.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Adds SQLAlchemy support to Flask application
 
 Group:          Development/Libraries
@@ -89,6 +89,9 @@ popd
 %endif # with_python3
 
 %changelog
+* Wed May 14 2014 Bohuslav Kabrda <bkabrda@redhat.com> - 1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Changes/Python_3.4
+
 * Tue Jan 21 2014 Praveen Kumar <kumarpraveen.nitdgp@gmail.com> 1.0-2
 - Fixed #1055251
 
