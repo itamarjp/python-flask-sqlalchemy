@@ -1,9 +1,12 @@
 %global mod_name Flask-SQLAlchemy
+%if 0%{?fedora}
+# there's no python3 in el*, disabling the python3 build
 %global with_python3 1
+%endif
 
 Name:           python-flask-sqlalchemy
 Version:        2.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Adds SQLAlchemy support to Flask application
 
 Group:          Development/Libraries
@@ -89,6 +92,9 @@ popd
 %endif # with_python3
 
 %changelog
+* Wed Dec 10 2014 Tim Flink <tflink@fedoraproject.org> - 2.0-1
+- enable python3 builds only for fedora - there's no python3 in el*
+
 * Wed Dec 10 2014 Tim Flink <tflink@fedoraproject.org> - 2.0-1
 - Upgraded to upstream 2.0
 - Enhanced internal signal control, made more customizable and less global to play nice with non-flask-sqlalchemy sessions
