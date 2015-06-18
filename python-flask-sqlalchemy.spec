@@ -6,7 +6,7 @@
 
 Name:           python-flask-sqlalchemy
 Version:        2.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Adds SQLAlchemy support to Flask application
 
 Group:          Development/Libraries
@@ -92,6 +92,9 @@ popd
 %endif # with_python3
 
 %changelog
+* Thu Jun 18 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
 * Wed Dec 10 2014 Tim Flink <tflink@fedoraproject.org> - 2.0-1
 - enable python3 builds only for fedora - there's no python3 in el*
 
