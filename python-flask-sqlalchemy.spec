@@ -5,8 +5,8 @@
 %endif
 
 Name:           python-flask-sqlalchemy
-Version:        2.0
-Release:        4%{?dist}
+Version:        2.1
+Release:        1%{?dist}
 Summary:        Adds SQLAlchemy support to Flask application
 
 Group:          Development/Libraries
@@ -20,31 +20,50 @@ BuildRequires:  python-setuptools
 BuildRequires:  python-flask
 Requires:       python-sqlalchemy
 
-%if 0%{?with_python3}
-BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
-BuildRequires:  python3-flask
-%endif
-
 %description
 Flask-SQLAlchemy is an extension for Flask that adds support for
-SQLAlchemy to your application. It aims to simplify using SQLAlchemy with 
-Flask by providing useful defaults and extra helpers that make it easier 
+SQLAlchemy to your application. It aims to simplify using SQLAlchemy with
+Flask by providing useful defaults and extra helpers that make it easier
 to accomplish common tasks.
+
+%package -n python2-flask-sqlalchemy
+Summary:        Adds SQLAlchemy support to Flask application
+%{?python_provide:%python_provide python2-%{mod_name}}
+%{?python_provide:%python_provide python2-flask-sqlalchemy}
+BuildRequires:  python2-devel
+BuildRequires:  python2-setuptools
+BuildRequires:  python-flask
+BuildRequires:  python-sqlalchemy
+Requires:       python-flask
+Requires:       python-sqlalchemy
+
+%description -n python2-flask-sqlalchemy
+Flask-SQLAlchemy is an extension for Flask that adds support for
+SQLAlchemy to your application. It aims to simplify using SQLAlchemy with
+Flask by providing useful defaults and extra helpers that make it easier
+to accomplish common tasks.
+
+Python 2 version.
 
 %if 0%{?with_python3}
 %package -n python3-flask-sqlalchemy
 Summary:        Adds SQLAlchemy support to Flask application
-Group:          Development/Libraries
+%{?python_provide:%python_provide python3-%{mod_name}}
+%{?python_provide:%python_provide python3-flask-sqlalchemy}
+BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
+BuildRequires:  python3-flask
+BuildRequires:  python3-sqlalchemy
+Requires:       python3-flask
 Requires:       python3-sqlalchemy
 
 %description -n python3-flask-sqlalchemy
 Flask-SQLAlchemy is an extension for Flask that adds support for
-SQLAlchemy to your application. It aims to simplify using SQLAlchemy with 
-Flask by providing useful defaults and extra helpers that make it easier 
+SQLAlchemy to your application. It aims to simplify using SQLAlchemy with
+Flask by providing useful defaults and extra helpers that make it easier
 to accomplish common tasks.
 
-This package includes the python 3 version of the module.
+Python 3 version.
 %endif # with_python3
 
 %prep
@@ -54,44 +73,47 @@ rm -f docs/.DS_Store
 rm -f docs/_themes/.gitignore
 chmod -x docs/_static/flask-sqlalchemy-small.png
 
-%if 0%{?with_python3}
-rm -rf %{py3dir}
-cp -a . %{py3dir}
-%endif # with_python3
-
 %build
-CFLAGS="$RPM_OPT_FLAGS" %{__python} setup.py build
+%py2_build
 
 %if 0%{?with_python3}
-pushd %{py3dir}
-CFLAGS="$RPM_OPT_FLAGS" %{__python3} setup.py build
-popd
+%py3_build
 %endif
 
 %install
-rm -rf $RPM_BUILD_ROOT
-%{__python} setup.py install -O1 --skip-build --root $RPM_BUILD_ROOT
+%py2_install
 
 %if 0%{?with_python3}
-pushd %{py3dir}
-mkdir -p $RPM_BUILD_ROOT%{python3_sitelib}
-%{__python3} setup.py install -O1 --skip-build --root $RPM_BUILD_ROOT
-popd
+%py3_install
+%endif
+
+%check
+%{__python2} setup.py test
+
+%if 0%{?with_python3}
+%{__python3} setup.py test
 %endif
  
-%files
-%doc docs/ README CHANGES LICENSE PKG-INFO
-%{python_sitelib}/*.egg-info/
-%{python_sitelib}/flask_sqlalchemy/*
+%files -n python2-flask-sqlalchemy
+%license LICENSE
+%doc docs/ README CHANGES PKG-INFO
+%{python2_sitelib}/*.egg-info/
+%{python2_sitelib}/flask_sqlalchemy/
 
 %if 0%{?with_python3}
 %files -n python3-flask-sqlalchemy
-%doc docs/ README CHANGES LICENSE PKG-INFO
+%license LICENSE
+%doc docs/ README CHANGES PKG-INFO
 %{python3_sitelib}/*.egg-info/
-%{python3_sitelib}/flask_sqlalchemy/*
+%{python3_sitelib}/flask_sqlalchemy/
 %endif # with_python3
 
 %changelog
+* Fri Jan 29 2016 Igor Gnatenko <i.gnatenko.brain@gmail.com> - 2.1-1
+- Update to 2.1
+- Follow new packaging guidelines
+- Run tests
+
 * Tue Nov 10 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Changes/python3.5
 
