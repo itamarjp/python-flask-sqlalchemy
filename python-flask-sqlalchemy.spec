@@ -31,7 +31,11 @@ Summary:        Adds SQLAlchemy support to Flask application
 %{?python_provide:%python_provide python2-%{mod_name}}
 %{?python_provide:%python_provide python2-flask-sqlalchemy}
 BuildRequires:  python2-devel
+%if 0%{?fedora}
 BuildRequires:  python2-setuptools
+%else
+BuildRequires:  python-setuptools
+%endif
 BuildRequires:  python-flask
 BuildRequires:  python-sqlalchemy
 Requires:       python-flask
