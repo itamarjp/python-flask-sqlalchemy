@@ -1,12 +1,8 @@
 %global mod_name Flask-SQLAlchemy
-%if 0%{?fedora}
-# there's no python3 in el*, disabling the python3 build
-%global with_python3 1
-%endif
 
 Name:           python-flask-sqlalchemy
 Version:        2.1
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Adds SQLAlchemy support to Flask application
 
 Group:          Development/Libraries
@@ -15,10 +11,6 @@ URL:            http://github.com/mitsuhiko/flask-sqlalchemy
 Source0:        http://pypi.python.org/packages/source/F/%{mod_name}/%{mod_name}-%{version}.tar.gz
 
 BuildArch:      noarch
-BuildRequires:  python-devel
-BuildRequires:  python-setuptools
-BuildRequires:  python-flask
-Requires:       python-sqlalchemy
 
 %description
 Flask-SQLAlchemy is an extension for Flask that adds support for
@@ -31,15 +23,20 @@ Summary:        Adds SQLAlchemy support to Flask application
 %{?python_provide:%python_provide python2-%{mod_name}}
 %{?python_provide:%python_provide python2-flask-sqlalchemy}
 BuildRequires:  python2-devel
-%if 0%{?fedora}
 BuildRequires:  python2-setuptools
+%if 0%{?fedora}
+BuildRequires:  python2-flask
+BuildRequires:  python2-sqlalchemy
+Requires:       python2-flask
+Requires:       python2-sqlalchemy
 %else
-BuildRequires:  python-setuptools
-%endif
 BuildRequires:  python-flask
 BuildRequires:  python-sqlalchemy
 Requires:       python-flask
 Requires:       python-sqlalchemy
+%endif
+
+
 
 %description -n python2-flask-sqlalchemy
 Flask-SQLAlchemy is an extension for Flask that adds support for
@@ -49,26 +46,24 @@ to accomplish common tasks.
 
 Python 2 version.
 
-%if 0%{?with_python3}
-%package -n python3-flask-sqlalchemy
+%package -n python%{python3_pkgversion}-flask-sqlalchemy
 Summary:        Adds SQLAlchemy support to Flask application
-%{?python_provide:%python_provide python3-%{mod_name}}
-%{?python_provide:%python_provide python3-flask-sqlalchemy}
-BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
-BuildRequires:  python3-flask
-BuildRequires:  python3-sqlalchemy
-Requires:       python3-flask
-Requires:       python3-sqlalchemy
+%{?python_provide:%python_provide python%{python3_pkgversion}-%{mod_name}}
+%{?python_provide:%python_provide python%{python3_pkgversion}-flask-sqlalchemy}
+BuildRequires:  python%{python3_pkgversion}-devel
+BuildRequires:  python%{python3_pkgversion}-setuptools
+BuildRequires:  python%{python3_pkgversion}-flask
+BuildRequires:  python%{python3_pkgversion}-sqlalchemy
+Requires:       python%{python3_pkgversion}-flask
+Requires:       python%{python3_pkgversion}-sqlalchemy
 
-%description -n python3-flask-sqlalchemy
+%description -n python%{python3_pkgversion}-flask-sqlalchemy
 Flask-SQLAlchemy is an extension for Flask that adds support for
 SQLAlchemy to your application. It aims to simplify using SQLAlchemy with
 Flask by providing useful defaults and extra helpers that make it easier
 to accomplish common tasks.
 
 Python 3 version.
-%endif # with_python3
 
 %prep
 %setup -q -n %{mod_name}-%{version}
@@ -79,40 +74,33 @@ chmod -x docs/_static/flask-sqlalchemy-small.png
 
 %build
 %py2_build
-
-%if 0%{?with_python3}
 %py3_build
-%endif
 
 %install
 %py2_install
-
-%if 0%{?with_python3}
 %py3_install
-%endif
 
 %check
 %{__python2} setup.py test
 
-%if 0%{?with_python3}
 %{__python3} setup.py test
-%endif
- 
+
 %files -n python2-flask-sqlalchemy
 %license LICENSE
 %doc docs/ README CHANGES PKG-INFO
 %{python2_sitelib}/*.egg-info/
 %{python2_sitelib}/flask_sqlalchemy/
 
-%if 0%{?with_python3}
-%files -n python3-flask-sqlalchemy
+%files -n python%{python3_pkgversion}-flask-sqlalchemy
 %license LICENSE
 %doc docs/ README CHANGES PKG-INFO
 %{python3_sitelib}/*.egg-info/
 %{python3_sitelib}/flask_sqlalchemy/
-%endif # with_python3
 
 %changelog
+* Fri Feb 16 2018 Itamar Reis Peixoto <itamar@ispbrasil.com.br> - 2.1-8
+- make spec file compatible with epel7
+
 * Fri Feb 09 2018 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
